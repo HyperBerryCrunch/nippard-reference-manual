@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nippard Ref">
+<title>Nippard Reference Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&family=Barlow+Condensed:wght@300;400;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0f0f0f;
+  --surface:#1a1a1a;
+  --surface2:#222;
+  --border:#2a2a2a;
+  --border2:#333;
+  --text:#f0f0f0;
+  --text2:#999;
+  --text3:#555;
+  --accent:#d4ff4f;
+  --accent-dim:#a8cc3a;
+  --red:#ff5a5a;
+  --blue:#5ab4ff;
+  --amber:#ffb83f;
+  --purple:#b09fff;
+  --green:#4fffb0;
+}
+@media(prefers-color-scheme:light){
+  :root{
+    --bg:#f5f5f3;
+    --surface:#ffffff;
+    --surface2:#f0f0ee;
+    --border:#e0e0dc;
+    --border2:#d0d0cc;
+    --text:#111111;
+    --text2:#666666;
+    --text3:#aaaaaa;
+    --accent:#3a7d00;
+    --accent-dim:#2e6400;
+    --red:#cc2222;
+    --blue:#1a6bbf;
+    --amber:#b85e00;
+    --purple:#6b4db5;
+    --green:#1a7a50;
+  }
+}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* ── HEADER ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:0 0 12px;
+  backdrop-filter:blur(10px);
+}
+.header-wordmark{
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:12px;
+}
+.header-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:400;letter-spacing:3.5px;
+  color:var(--text3);text-transform:uppercase;
+  margin-bottom:5px;
+}
+.header-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:34px;font-weight:800;letter-spacing:-0.5px;
+  color:var(--text);line-height:1;text-transform:uppercase;
+  display:flex;align-items:baseline;gap:10px;
+}
+.header-name-light{
+  font-weight:300;color:var(--text2);
+}
+.header-rule-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:10px;
+}
+.header-rule{
+  height:2px;width:32px;background:var(--text);border-radius:1px;
+}
+.header-meta{
+  font-family:'DM Mono',monospace;
+  font-size:10px;color:var(--text3);letter-spacing:0.3px;
+}
+
+/* ── FILTERS ── */
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter-chip{
+  flex-shrink:0;font-size:12px;font-weight:600;
+  padding:6px 14px;border-radius:20px;
+  border:1px solid var(--border2);
+  background:var(--surface);color:var(--text2);
+  cursor:pointer;white-space:nowrap;transition:all 0.15s;
+  font-family:'DM Mono',monospace;
+}
+.filter-chip.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+
+/* ── SEARCH ── */
+.search-wrap{
+  margin:12px 20px 0;
+  display:flex;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--border2);border-radius:12px;
+  padding:11px 14px;
+}
+.search-wrap svg{flex-shrink:0;opacity:0.4}
+.search-wrap input{
+  border:none;outline:none;background:transparent;
+  font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;width:100%;
+}
+.search-wrap input::placeholder{color:var(--text3)}
+
+/* ── TIER ROW ── */
+.tier-row{display:flex;gap:8px;padding:12px 20px 0;overflow-x:auto;scrollbar-width:none}
+.tier-row::-webkit-scrollbar{display:none}
+.tier-btn{
+  flex-shrink:0;font-size:11px;font-weight:700;
+  padding:5px 12px;border-radius:20px;border:1px solid transparent;
+  cursor:pointer;transition:all 0.15s;font-family:'DM Mono',monospace;
+}
+.tier-btn.all{border-color:var(--border2);color:var(--text2);background:var(--surface)}
+.tier-btn.all.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.tier-btn.sp{background:rgba(212,255,79,0.12);color:var(--accent);border-color:rgba(212,255,79,0.3)}
+.tier-btn.sp.active{background:var(--accent);color:#0f0f0f}
+.tier-btn.s{background:rgba(90,180,255,0.1);color:var(--blue);border-color:rgba(90,180,255,0.3)}
+.tier-btn.s.active{background:var(--blue);color:#0f0f0f}
+.tier-btn.a{background:rgba(255,184,63,0.1);color:var(--amber);border-color:rgba(255,184,63,0.3)}
+.tier-btn.a.active{background:var(--amber);color:#0f0f0f}
+.tier-btn.b{background:rgba(176,159,255,0.1);color:var(--purple);border-color:rgba(176,159,255,0.3)}
+.tier-btn.b.active{background:var(--purple);color:#0f0f0f}
+
+/* ── GRID ── */
+.grid-wrap{padding:12px 20px 140px}
+.result-label{font-size:11px;color:var(--text3);margin-bottom:10px;font-family:'DM Mono',monospace;letter-spacing:0.3px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:500px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:720px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:14px;cursor:pointer;transition:border-color 0.15s,transform 0.1s;
+  display:flex;flex-direction:column;gap:9px;
+  -webkit-user-select:none;user-select:none;
+}
+.card:active{transform:scale(0.97)}
+.card.selected{border-color:var(--accent)}
+.card-name{font-size:13px;font-weight:600;line-height:1.3;color:var(--text)}
+.card-badges{display:flex;flex-wrap:wrap;gap:4px}
+.badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;letter-spacing:0.2px}
+.badge-sp{background:rgba(212,255,79,0.15);color:var(--accent)}
+.badge-s{background:rgba(90,180,255,0.12);color:var(--blue)}
+.badge-a{background:rgba(255,184,63,0.12);color:var(--amber)}
+.badge-b{background:rgba(176,159,255,0.12);color:var(--purple)}
+.badge-fav{background:rgba(255,90,90,0.12);color:var(--red)}
+.card-equip{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px}
+.dot{width:4px;height:4px;border-radius:50%;background:var(--text3);flex-shrink:0}
+
+/* ── DRAWER ── */
+.drawer-overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,0.65);backdrop-filter:blur(5px);
+}
+.drawer-overlay.open{display:block}
+.drawer{
+  position:fixed;bottom:0;left:0;right:0;z-index:201;
+  background:var(--surface);border-radius:22px 22px 0 0;
+  border-top:1px solid var(--border2);
+  max-height:92vh;overflow-y:auto;
+  transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);
+}
+.drawer.open{transform:translateY(0)}
+.drawer-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0}
+.drawer-inner{padding:20px 20px 48px}
+
+.drawer-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.drawer-name{font-size:20px;font-weight:700;line-height:1.2;color:var(--text)}
+.drawer-close{
+  flex-shrink:0;width:30px;height:30px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text2);font-size:15px;
+}
+
+.drawer-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.drawer-group-badge{
+  font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;
+  background:var(--surface2);color:var(--text2);border:1px solid var(--border2);
+  font-family:'DM Mono',monospace;
+}
+
+/* ── MUSCLE VISUAL ── */
+.muscle-visual{
+  margin-bottom:20px;
+  background:var(--surface2);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;
+}
+.muscle-visual-header{
+  padding:12px 16px 10px;
+  font-size:11px;font-weight:700;color:var(--text3);
+  font-family:'DM Mono',monospace;letter-spacing:0.5px;
+  text-transform:uppercase;border-bottom:1px solid var(--border);
+}
+.muscle-group-row{
+  display:flex;align-items:center;gap:0;
+}
+.muscle-side-label{
+  width:52px;flex-shrink:0;
+  font-size:10px;font-weight:700;color:var(--text3);
+  font-family:'DM Mono',monospace;letter-spacing:0.4px;
+  text-transform:uppercase;
+  padding:0 10px 0 16px;
+  text-align:right;
+  line-height:1.2;
+}
+.muscle-bars{
+  flex:1;display:flex;flex-direction:column;gap:5px;
+  padding:12px 16px 12px 8px;
+  border-left:1px solid var(--border);
+}
+.muscle-bar-item{display:flex;align-items:center;gap:8px}
+.muscle-bar-label{font-size:12px;color:var(--text);font-weight:500;flex:0 0 auto;min-width:0}
+.muscle-bar-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.muscle-bar-fill{height:100%;border-radius:3px;transition:width 0.4s ease}
+.muscle-bar-fill.primary{background:var(--accent)}
+.muscle-bar-fill.secondary{background:rgba(212,255,79,0.35)}
+.no-muscles{
+  padding:20px 16px;text-align:center;
+  font-size:13px;color:var(--text3);font-style:italic;
+}
+
+/* ── SECTION LABEL ── */
+.section-label{
+  font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;
+  margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;
+}
+
+/* ── ACTIONS ── */
+.actions{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+
+/* Hero YouTube button */
+.btn-yt-hero{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;border-radius:14px;
+  background:#ff0000;border:none;cursor:pointer;
+  transition:all 0.15s;text-decoration:none;
+  border:2px solid rgba(255,255,255,0.12);
+}
+.btn-yt-hero:active{transform:scale(0.97);background:#cc0000}
+.btn-yt-hero-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(0,0,0,0.25);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.btn-yt-hero-text{display:flex;flex-direction:column;gap:2px;text-align:left}
+.btn-yt-hero-label{font-size:11px;color:rgba(255,255,255,0.7);font-family:'DM Mono',monospace;font-weight:500;letter-spacing:0.3px;text-transform:uppercase}
+.btn-yt-hero-cta{font-size:16px;font-weight:700;color:#fff;font-family:'DM Sans',sans-serif}
+.btn-yt-hero-arrow{margin-left:auto;color:rgba(255,255,255,0.6);flex-shrink:0}
+.no-video-box{
+  padding:16px 20px;border-radius:14px;
+  background:var(--surface2);border:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;color:var(--text3);font-size:14px;
+}
+
+/* Add to workout button */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;
+  padding:13px 20px;border-radius:12px;border:1px solid var(--border2);
+  background:var(--surface2);color:var(--text);cursor:pointer;
+  transition:all 0.15s;width:100%;
+}
+.btn:active{transform:scale(0.97)}
+.btn-add{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+.btn-add:active{background:var(--accent-dim)}
+.btn-added{background:var(--surface2);color:var(--text3);border-color:var(--border);cursor:default}
+
+/* ── FAB ── */
+.workout-fab{
+  position:fixed;bottom:28px;right:20px;z-index:150;
+  background:var(--accent);color:#0f0f0f;
+  border-radius:30px;padding:13px 20px;
+  display:flex;align-items:center;gap:9px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  box-shadow:0 4px 24px rgba(212,255,79,0.35);
+  transition:transform 0.15s;border:none;
+}
+.workout-fab:active{transform:scale(0.96)}
+.workout-fab .count-badge{
+  background:#0f0f0f;color:var(--accent);
+  border-radius:20px;padding:2px 9px;font-size:12px;
+  font-family:'DM Mono',monospace;font-weight:700;
+}
+
+/* ── WORKOUT PANEL ── */
+.workout-panel{
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:var(--surface);border-radius:22px 22px 0 0;
+  border-top:1px solid var(--border2);
+  max-height:82vh;
+  transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);
+  display:flex;flex-direction:column;
+}
+.workout-panel.open{transform:translateY(0)}
+.workout-panel-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0;flex-shrink:0}
+.workout-panel-header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 20px 12px;flex-shrink:0;border-bottom:1px solid var(--border);
+}
+.workout-panel-title{font-size:17px;font-weight:700}
+.btn-clear-all{font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:4px 0}
+.workout-scroll{overflow-y:auto;padding:8px 20px 48px;flex:1}
+.workout-empty{color:var(--text3);font-size:14px;text-align:center;padding:36px 20px;line-height:1.7}
+.workout-item{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 0;border-bottom:1px solid var(--border);
+}
+.workout-item:last-child{border-bottom:none}
+.workout-item-info{flex:1;min-width:0}
+.workout-item-name{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.workout-item-group{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:3px}
+.workout-item-actions{display:flex;gap:7px;flex-shrink:0}
+.icon-btn{
+  width:32px;height:32px;border-radius:9px;
+  background:var(--surface2);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);
+}
+/* ── TIER LEGEND (drawer inline) ── */
+.drawer-tier-explainer{
+  background:var(--surface2);border:1px solid var(--border);border-radius:12px;
+  padding:12px 14px;margin-bottom:16px;
+}
+.drawer-tier-explainer-label{
+  font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);
+  letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px;
+}
+.drawer-tier-explainer-row{display:flex;align-items:baseline;gap:10px}
+.drawer-tier-explainer-pill{
+  flex-shrink:0;font-size:11px;font-weight:700;
+  padding:3px 9px;border-radius:20px;font-family:'DM Mono',monospace;
+}
+.drawer-tier-explainer-text{font-size:13px;color:var(--text2);line-height:1.4}
+.drawer-tier-explainer-text strong{color:var(--text);font-weight:600}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:400;
+  background:var(--bg);border-top:1px solid var(--border);
+  display:flex;padding-bottom:env(safe-area-inset-bottom);
+}
+.nav-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:3px;padding:10px 0 8px;cursor:pointer;
+  background:none;border:none;color:var(--text3);
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3px;
+  transition:color 0.15s;
+}
+.nav-tab.active{color:var(--text)}
+.nav-tab svg{width:22px;height:22px}
+
+/* ── PAGE VIEWS ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── MY LIFTS ── */
+.lifts-header{
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg);
+  position:sticky;top:0;z-index:100;
+}
+.lifts-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:400;letter-spacing:3.5px;
+  color:var(--text3);text-transform:uppercase;margin-bottom:5px;
+}
+.lifts-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:34px;font-weight:800;letter-spacing:-0.5px;
+  color:var(--text);line-height:1;text-transform:uppercase;
+  display:flex;align-items:baseline;gap:10px;
+}
+.lifts-title span{font-weight:300;color:var(--text2)}
+.lifts-rule-row{
+  display:flex;align-items:center;justify-content:space-between;margin-top:10px;
+}
+.lifts-rule{height:2px;width:32px;background:var(--text);border-radius:1px}
+.lifts-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3)}
+.lifts-list{padding:12px 20px 140px}
+.lift-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  margin-bottom:10px;overflow:hidden;
+}
+.lift-card-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;gap:12px;cursor:pointer;
+}
+.lift-card-left{flex:1;min-width:0}
+.lift-card-name{font-size:14px;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:5px}
+.lift-card-pr{
+  font-family:'DM Mono',monospace;font-size:14px;
+  color:var(--accent);font-weight:500;letter-spacing:0.2px;
+}
+.lift-card-chevron{color:var(--text3);flex-shrink:0;transition:transform 0.2s}
+.lift-card.open .lift-card-chevron{transform:rotate(180deg)}
+.lift-history{display:none;border-top:1px solid var(--border)}
+.lift-card.open .lift-history{display:block}
+.lift-history-empty{padding:14px 16px;font-size:13px;color:var(--text3);font-style:italic}
+.lift-history-row{
+  display:flex;align-items:baseline;gap:10px;
+  padding:10px 16px;border-bottom:1px solid var(--border);
+}
+.lift-history-row:last-child{border-bottom:none}
+.lift-history-date{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--text3);flex-shrink:0;min-width:58px;
+}
+.lift-history-note{font-size:13px;color:var(--text2);line-height:1.4;flex:1}
+.lift-pr-badge{
+  flex-shrink:0;font-family:'DM Mono',monospace;font-size:10px;font-weight:700;
+  color:var(--accent);letter-spacing:0.5px;
+  background:rgba(212,255,79,0.1);padding:2px 7px;border-radius:20px;
+}
+@media(prefers-color-scheme:light){
+  .lift-pr-badge{background:rgba(58,125,0,0.1)}
+}
+
+/* iPhone safe area padding for scrollable content */
+html{padding-top:env(safe-area-inset-top)}
+.grid-wrap, .lifts-list{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+</style>
+</head>
+<body>
+
+<!-- ── PAGE: BROWSE ── -->
+<div class="page active" id="page-browse">
+  <div class="header-wordmark">
+    <div class="header-eyebrow">Jeff Nippard</div>
+    <div class="header-name">Reference <span class="header-name-light">Manual</span></div>
+    <div class="header-rule-row">
+      <div class="header-rule"></div>
+      <div class="header-meta" id="ex-count">154 exercises</div>
+    </div>
+  </div>
+  <div class="filters" id="muscle-filters" style="padding:0 20px">
+    <div class="filter-chip active" data-muscle="">All</div>
+    <div class="filter-chip" data-muscle="Back">Back</div>
+    <div class="filter-chip" data-muscle="Chest">Chest</div>
+    <div class="filter-chip" data-muscle="Shoulder">Shoulder</div>
+    <div class="filter-chip" data-muscle="Biceps">Biceps</div>
+    <div class="filter-chip" data-muscle="Triceps">Triceps</div>
+    <div class="filter-chip" data-muscle="Quad">Quad</div>
+    <div class="filter-chip" data-muscle="Glute">Glute</div>
+    <div class="filter-chip" data-muscle="Hamstring">Hamstring</div>
+    <div class="filter-chip" data-muscle="Adductors">Adductors</div>
+    <div class="filter-chip" data-muscle="Calves">Calves</div>
+    <div class="filter-chip" data-muscle="Core">Core</div>
+    <div class="filter-chip" data-muscle="Forarm">Forearm</div>
+    <div class="filter-chip" data-muscle="Neck">Neck</div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  <input type="text" id="search" placeholder="Search exercises..." autocomplete="off" autocorrect="off" spellcheck="false">
+</div>
+
+<div class="tier-row">
+  <button class="tier-btn all active" data-tier="">All tiers</button>
+  <button class="tier-btn sp" data-tier="5 - S+">S+</button>
+  <button class="tier-btn s" data-tier="4 - S">S</button>
+  <button class="tier-btn a" data-tier="3 - A">A</button>
+  <button class="tier-btn b" data-tier="2 - B">B</button>
+</div>
+
+
+<div class="grid-wrap">
+  <div class="result-label" id="result-label"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- Drawer -->
+<div class="drawer-overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-inner">
+    <div class="drawer-header">
+      <div class="drawer-name" id="d-name"></div>
+      <div class="drawer-close" id="d-close">✕</div>
+    </div>
+    <div class="drawer-badges" id="d-badges"></div>
+    <div id="d-tier-legend"></div>
+    <div id="d-muscle-visual"></div>
+    <div class="actions" id="d-actions"></div>
+  </div>
+</div>
+
+<!-- FAB -->
+<button class="workout-fab" id="workout-fab">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+  Today's workout
+  <span class="count-badge" id="fab-count">0</span>
+</button>
+
+<!-- Workout panel -->
+<div class="workout-panel" id="workout-panel">
+  <div class="workout-panel-handle"></div>
+  <div class="workout-panel-header">
+    <div class="workout-panel-title">Today's workout</div>
+    <button class="btn-clear-all" id="btn-clear">Clear all</button>
+  </div>
+  <div class="workout-scroll" id="workout-list"></div>
+</div>
+
+</div><!-- end page-browse -->
+
+<!-- ── PAGE: MY LIFTS ── -->
+<div class="page" id="page-lifts">
+  <div class="lifts-header">
+    <div class="lifts-eyebrow">Justin's</div>
+    <div class="lifts-title">My Lifts <span>/ PRs</span></div>
+    <div class="lifts-rule-row">
+      <div class="lifts-rule"></div>
+      <div class="lifts-meta">28 exercises tracked</div>
+    </div>
+  </div>
+  <div class="lifts-list" id="lifts-list"></div>
+</div>
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="bottom-nav">
+  <button class="nav-tab active" id="tab-browse" onclick="switchTab('browse')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+    Browse
+  </button>
+  <button class="nav-tab" id="tab-lifts" onclick="switchTab('lifts')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <path d="M6 20V10M12 20V4M18 20v-6"/>
+    </svg>
+    My Lifts
+  </button>
+</nav>
+
+<script>
+const EXERCISES=[{"name":"Cable Hip Adduction","primaryGroup":"Adductors","equipment":"Cable","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Adductors"]},{"name":"Hip Adduction","primaryGroup":"Adductors","equipment":"Machine","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Adductors"]},{"name":"Chest-Supported T-Bar Row","primaryGroup":"Back","equipment":"T-Bar","tierGrade":"5 - S+","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=533s","videoId":"jLvqKgW-_G8","muscles":["Shoulder: Posterior","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"Half-Kneeling 1-Arm Pull-Down","primaryGroup":"Back","equipment":"Cable","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=248s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Back: Traps","Back: Rhomboids","Shoulder: Posterior"]},{"name":"Meadows T-Bar Row","primaryGroup":"Back","equipment":"T-Bar","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=388s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Back: Traps","Back: Rhomboids","Shoulder: Posterior","Biceps: Long","Forarm"]},{"name":"Neutral-Grip Cable Row","primaryGroup":"Back","equipment":"Cable","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=388s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Back: Traps","Back: Rhomboids","Shoulder: Posterior","Biceps: Long","Forarm"]},{"name":"Neutral-Grip Pull-Down","primaryGroup":"Back","equipment":"Machine","tierGrade":"4 - S","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=238s","videoId":"jLvqKgW-_G8","muscles":["Shoulder: Posterior","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"Wide-Grip Cable Row","primaryGroup":"Back","equipment":"Cable","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=576s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Back: Traps","Back: Rhomboids","Shoulder: Posterior","Biceps: Long"]},{"name":"Wide-Grip Pull-Down","primaryGroup":"Back","equipment":"Machine","tierGrade":"4 - S","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=217s","videoId":"jLvqKgW-_G8","muscles":["Shoulder: Posterior","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"Cable Pull-Over","primaryGroup":"Back","equipment":"Cable","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=637s","videoId":"jLvqKgW-_G8","muscles":["Triceps: Long","Back: Lats"]},{"name":"Cross-Body Pull-Around","primaryGroup":"Back","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=278s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Shoulder: Posterior","Back: Rhomboids"]},{"name":"Deficit Pendley Barbell Row","primaryGroup":"Back","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=378s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Back: Traps","Back: Rhomboids","Shoulder: Posterior","Biceps: Long","Forarm","Back: Spinal Erectors"]},{"name":"Lying Rope Face-Pull","primaryGroup":"Back","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=614s","videoId":"jLvqKgW-_G8","muscles":["Shoulder: Posterior","Back: Traps","Back: Rhomboids","Back: Rotator Cuff"]},{"name":"Neutral-Grip Pull-Up","primaryGroup":"Back","equipment":"Bodyweight","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=196s","videoId":"jLvqKgW-_G8","muscles":["Biceps: Short","Biceps: Long","Shoulder: Posterior","Forarm","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"Seated Rope Face-Pull","primaryGroup":"Back","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=614s","videoId":"jLvqKgW-_G8","muscles":["Shoulder: Posterior","Back: Traps","Back: Rhomboids","Back: Rotator Cuff"]},{"name":"Wide-Grip Pull-up","primaryGroup":"Back","equipment":"Bodyweight","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=168s","videoId":"jLvqKgW-_G8","muscles":["Biceps: Short","Biceps: Long","Shoulder: Posterior","Forarm","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"1-Arm Dumbbell Row","primaryGroup":"Back","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=446s","videoId":"jLvqKgW-_G8","muscles":["Shoulder: Posterior","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"Dumbbell Pull-Over","primaryGroup":"Back","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=674s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Chest: Middle","Chest: Lower","Triceps: Long"]},{"name":"Kroc Dumbbell Row","primaryGroup":"Back","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=477s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Back: Traps","Back: Rhomboids","Shoulder: Posterior","Biceps: Long","Forarm","Back: Spinal Erectors"]},{"name":"Barbell Row","primaryGroup":"Back","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=300s","videoId":"jLvqKgW-_G8","muscles":["Biceps: Short","Biceps: Long","Shoulder: Posterior","Forarm","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"Chin-Up","primaryGroup":"Back","equipment":"Bodyweight","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=202s","videoId":"jLvqKgW-_G8","muscles":["Biceps: Short","Biceps: Long","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"Free-Standing T-Bar Row","primaryGroup":"Back","equipment":"T-Bar","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=505s","videoId":"jLvqKgW-_G8","muscles":["Back: Lats","Back: Traps","Back: Rhomboids","Shoulder: Posterior","Biceps: Long","Forarm"]},{"name":"Pendley Barbell Row","primaryGroup":"Back","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=351s","videoId":"jLvqKgW-_G8","muscles":["Biceps: Short","Biceps: Long","Shoulder: Posterior","Forarm","Back: Lats","Back: Traps","Back: Rhomboids"]},{"name":"Standing Rope Face-Pull","primaryGroup":"Back","equipment":"Cable","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=jLvqKgW-_G8&t=591s","videoId":"jLvqKgW-_G8","muscles":["Shoulder: Posterior","Back: Traps","Back: Rhomboids","Back: Rotator Cuff"]},{"name":"Cable Single Lat Pull-In","primaryGroup":"Back","equipment":"Cable","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Back: Lats"]},{"name":"Face Away Bayesian Curl","primaryGroup":"Biceps","equipment":"Cable","tierGrade":"5 - S+","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=629s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long","Neck: Flexors"]},{"name":"Dumbbell Preacher Curl","primaryGroup":"Biceps","equipment":"Dumbbell","tierGrade":"4 - S","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=265s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Preacher Hammer Curl","primaryGroup":"Biceps","equipment":"Dumbbell","tierGrade":"4 - S","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=855s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long","Biceps: Brachialis","Forarm"]},{"name":"Machine Preacher Curl","primaryGroup":"Biceps","equipment":"Machine","tierGrade":"4 - S","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=420s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Bayesian Cable Curl Variation","primaryGroup":"Biceps","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=671s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"EZ Bar Curl","primaryGroup":"Biceps","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=166s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long","Biceps: Brachialis"]},{"name":"Cheat Curl","primaryGroup":"Biceps","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=706s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Hammer Curl","primaryGroup":"Biceps","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=788s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long","Biceps: Brachialis","Forarm"]},{"name":"Incline Curl","primaryGroup":"Biceps","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=319s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Inverse Zottman Curl","primaryGroup":"Biceps","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=865s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long","Biceps: Brachialis"]},{"name":"Lying Dumbbell Curl","primaryGroup":"Biceps","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=334s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Standing Cable Curl","primaryGroup":"Biceps","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=612s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Modified 21s","primaryGroup":"Biceps","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=609s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Standing Dumbbell Curl","primaryGroup":"Biceps","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=218s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Strict Curl","primaryGroup":"Biceps","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=752s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Barbell Curl","primaryGroup":"Biceps","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=117s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Chin-Ups","primaryGroup":"Biceps","equipment":"Bodyweight","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=511s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Flat Bench Curl","primaryGroup":"Biceps","equipment":"Dumbbell","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=GNO4OtYoCYk&t=390s","videoId":"GNO4OtYoCYk","muscles":["Biceps: Short","Biceps: Long"]},{"name":"Seated Calf Raise","primaryGroup":"Calves","equipment":"Machine","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Calves"]},{"name":"Standing Calf Raise","primaryGroup":"Calves","equipment":"Machine","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Calves"]},{"name":"Machine Chest Press","primaryGroup":"Chest","equipment":"Machine","tierGrade":"5 - S+","muscleLadder":false,"jeffFav":true,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=274s","videoId":"fGm-ef-4PVk","muscles":["Chest: Middle","Chest: Lower"]},{"name":"Seated Cable Pec Fly","primaryGroup":"Chest","equipment":"Cable","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=648s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Bench Press","primaryGroup":"Chest","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=107s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Middle","Chest: Lower"]},{"name":"Cable Crossovers","primaryGroup":"Chest","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=613s","videoId":"fGm-ef-4PVk","muscles":["Chest: Middle","Chest: Lower"]},{"name":"Cable Press-Around","primaryGroup":"Chest","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=732s","videoId":"fGm-ef-4PVk","muscles":["Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Deficit Pushups","primaryGroup":"Chest","equipment":"Bodyweight","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=405s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Middle","Chest: Lower"]},{"name":"Dips","primaryGroup":"Chest","equipment":"Bodyweight","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=307s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Lower"]},{"name":"Dumbbell Fly","primaryGroup":"Chest","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=691s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Chest: Middle","Chest: Lower"]},{"name":"Dumbbell Guillotine Press","primaryGroup":"Chest","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=529s","videoId":"fGm-ef-4PVk","muscles":["Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Incline Bench Press","primaryGroup":"Chest","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=152s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Flat Dumbbell Press","primaryGroup":"Chest","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=214s","videoId":"fGm-ef-4PVk","muscles":["Chest: Middle","Chest: Lower"]},{"name":"Incline Smith Machine Bench Press","primaryGroup":"Chest","equipment":"Smith Machine","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=586s","videoId":"fGm-ef-4PVk","muscles":["Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Pec Deck","primaryGroup":"Chest","equipment":"Machine","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=668s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Chest: Middle","Chest: Lower"]},{"name":"Smith Machine Bench Press","primaryGroup":"Chest","equipment":"Smith Machine","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=567s","videoId":"fGm-ef-4PVk","muscles":["Chest: Middle","Chest: Lower"]},{"name":"Incline Dumbbell Press","primaryGroup":"Chest","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=254s","videoId":"fGm-ef-4PVk","muscles":["Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Close-Grip Bench Press","primaryGroup":"Chest","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=728s","videoId":"OpRMRhr0Ycc","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Banded Pushups","primaryGroup":"Chest","equipment":"Resistance Bands","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=389s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Middle","Chest: Lower"]},{"name":"Decline Bench Press","primaryGroup":"Chest","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=176s","videoId":"fGm-ef-4PVk","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Middle","Chest: Lower"]},{"name":"Decline Dumbbell Press","primaryGroup":"Chest","equipment":"Dumbbell","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=fGm-ef-4PVk&t=263s","videoId":"fGm-ef-4PVk","muscles":["Chest: Middle","Chest: Lower"]},{"name":"Dumbbell Bench Press","primaryGroup":"Chest","equipment":"Dumbbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Middle","Chest: Lower"]},{"name":"Incline Dumbbell Bench Press","primaryGroup":"Chest","equipment":"Dumbbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Shoulder: Anterior","Triceps: Lateral","Triceps: Medial","Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Standing Cable Pec Fly","primaryGroup":"Chest","equipment":"Cable","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Shoulder: Anterior","Chest: Upper","Chest: Middle","Chest: Lower"]},{"name":"Cable Crunch","primaryGroup":"Core","equipment":"Cable","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Core: Abdominis","Core: Obliques"]},{"name":"Plate-Loaded Decline Sit-Up","primaryGroup":"Core","equipment":"Bodyweight","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Core: Abdominis","Core: Hip Flexors"]},{"name":"Hanging Leg Raise","primaryGroup":"Core","equipment":"Bodyweight","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Core: Abdominis","Core: Hip Flexors"]},{"name":"Plank","primaryGroup":"Core","equipment":"Bodyweight","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Core: Abdominis","Core: Obliques"]},{"name":"Long-Lever Pelvic Tilt (LLPT) Plank","primaryGroup":"Core","equipment":"Bodyweight","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Core: Abdominis","Core: Obliques"]},{"name":"Dumbbell Wrist Curl","primaryGroup":"Forarm","equipment":"Dumbbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Forarm"]},{"name":"Dumbbell Wrist Extension","primaryGroup":"Forarm","equipment":"Dumbbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Forarm"]},{"name":"Walking Dumbbell Lunges","primaryGroup":"Glute","equipment":"Dumbbell","tierGrade":"5 - S+","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=566s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower","Glute: Medius","Glute: Minimus","Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Back Extension - 45 Degree","primaryGroup":"Glute","equipment":"Bodyweight","tierGrade":"4 - S","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=728s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower","Hamstring","Back: Spinal Erectors"]},{"name":"Hip Abduction","primaryGroup":"Glute","equipment":"Machine","tierGrade":"4 - S","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=500s","videoId":"3ryh7PNhz3E","muscles":["Glute: Medius","Glute: Minimus","Abductors"]},{"name":"Smith Machine Lunge (Elevated)","primaryGroup":"Glute","equipment":"Smith Machine","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=624s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower"]},{"name":"Single-Leg Dumbbell Hip Thrust","primaryGroup":"Glute","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=264s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower","Glute: Medius","Glute: Minimus"]},{"name":"Kickbacks","primaryGroup":"Glute","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=444s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Medius","Glute: Minimus","Hamstring"]},{"name":"Machine Hip Thrust","primaryGroup":"Glute","equipment":"Machine","tierGrade":"3 - A","muscleLadder":false,"jeffFav":true,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=232s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Middle"]},{"name":"Smith Machine Lunge","primaryGroup":"Glute","equipment":"Smith Machine","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=611s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower"]},{"name":"Step Up","primaryGroup":"Glute","equipment":"Bodyweight","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=475s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Medius","Glute: Minimus"]},{"name":"Barbell Hip Thrust","primaryGroup":"Glute","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=127s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Middle","Glute: Maximus Lower"]},{"name":"Cable Hip Abduction","primaryGroup":"Glute","equipment":"Cable","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=544s","videoId":"3ryh7PNhz3E","muscles":["Glute: Medius","Glute: Minimus","Abductors"]},{"name":"Cable Pull Through","primaryGroup":"Glute","equipment":"Cable","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=754s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Middle"]},{"name":"Deadlift","primaryGroup":"Glute","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=651s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Middle","Glute: Maximus Lower","Quad: Vastus","Quad: Rectus Femoris","Hamstring","Back: Spinal Erectors"]},{"name":"Glute Bridge","primaryGroup":"Glute","equipment":"Bodyweight","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=284s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower"]},{"name":"Sumo Deadlift","primaryGroup":"Glute","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=680s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Middle","Glute: Maximus Lower","Glute: Medius","Quad: Vastus","Quad: Rectus Femoris","Adductors","Back: Spinal Erectors"]},{"name":"Curtsy Lunges","primaryGroup":"Glute","equipment":"Bodyweight","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=630s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Medius","Glute: Minimus"]},{"name":"Barbell Lunge","primaryGroup":"Glute","equipment":"Barbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower","Glute: Medius","Glute: Minimus","Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Romanian Deadlift","primaryGroup":"Hamstring","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=3ryh7PNhz3E&t=701s","videoId":"3ryh7PNhz3E","muscles":["Glute: Maximus Middle","Glute: Maximus Lower","Hamstring","Back: Spinal Erectors"]},{"name":"Glut-Ham Raise","primaryGroup":"Hamstring","equipment":"Machine","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Glute: Maximus Middle","Glute: Maximus Lower","Hamstring"]},{"name":"Good Morning","primaryGroup":"Hamstring","equipment":"Barbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Glute: Maximus Middle","Glute: Maximus Lower","Hamstring","Back: Spinal Erectors"]},{"name":"Lying Leg Curl","primaryGroup":"Hamstring","equipment":"Machine","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Hamstring"]},{"name":"Nordic Ham Curl","primaryGroup":"Hamstring","equipment":"Bodyweight","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Glute: Maximus Middle","Glute: Maximus Lower","Hamstring"]},{"name":"Seated Leg Curl","primaryGroup":"Hamstring","equipment":"Machine","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Hamstring"]},{"name":"Plate-Loaded Neck Curl","primaryGroup":"Neck","equipment":"Bodyweight","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Neck: Flexors","Core: Hip Flexors"]},{"name":"Barbell Shrug","primaryGroup":"Neck","equipment":"Barbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Back: Traps","Neck: Levator Scapulae","Core: Obliques"]},{"name":"Dumbbell Shrug","primaryGroup":"Neck","equipment":"Dumbbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Back: Traps","Neck: Levator Scapulae","Core: Obliques"]},{"name":"Cable Shrug","primaryGroup":"Neck","equipment":"Cable","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Back: Traps","Neck: Levator Scapulae","Core: Obliques"]},{"name":"Plate-Loaded Neck Extension","primaryGroup":"Neck","equipment":"Bodyweight","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Neck: Extensors"]},{"name":"Head Harness Neck Extension","primaryGroup":"Neck","equipment":"Head Harness","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Neck: Extensors"]},{"name":"Hack Squat","primaryGroup":"Quad","equipment":"Machine","tierGrade":"5 - S+","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=276s","videoId":"kIXcoivzGf8","muscles":["Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Bulgarian Split Squat","primaryGroup":"Quad","equipment":"Dumbbell","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=574s","videoId":"kIXcoivzGf8","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Medius","Glute: Minimus","Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Barbell Back Squat","primaryGroup":"Quad","equipment":"Barbell","tierGrade":"4 - S","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=121s","videoId":"kIXcoivzGf8","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower","Quad: Vastus","Quad: Rectus Femoris","Adductors","Back: Spinal Erectors"]},{"name":"Pendulum Squat","primaryGroup":"Quad","equipment":"Machine","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=307s","videoId":"kIXcoivzGf8","muscles":["Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Smith Machine Squat","primaryGroup":"Quad","equipment":"Smith Machine","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=325s","videoId":"kIXcoivzGf8","muscles":["Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Barbell Front Squat","primaryGroup":"Quad","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=184s","videoId":"kIXcoivzGf8","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower","Quad: Vastus","Quad: Rectus Femoris","Adductors","Back: Spinal Erectors"]},{"name":"Low-Bar Squat","primaryGroup":"Quad","equipment":"Barbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=248s","videoId":"kIXcoivzGf8","muscles":["Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Machine Leg Extension","primaryGroup":"Quad","equipment":"Machine","tierGrade":"3 - A","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=425s","videoId":"kIXcoivzGf8","muscles":["Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Machine Leg Press - 45 Degree","primaryGroup":"Quad","equipment":"Machine","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=350s","videoId":"kIXcoivzGf8","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower","Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Reverse Nordic","primaryGroup":"Quad","equipment":"Bodyweight","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=494s","videoId":"kIXcoivzGf8","muscles":["Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Sissy Squat","primaryGroup":"Quad","equipment":"Bodyweight","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=656s","videoId":"kIXcoivzGf8","muscles":["Quad: Vastus","Quad: Rectus Femoris"]},{"name":"Goblet Squat","primaryGroup":"Quad","equipment":"Dumbbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=kIXcoivzGf8&t=530s","videoId":"kIXcoivzGf8","muscles":["Glute: Maximus Upper","Glute: Maximus Middle","Glute: Maximus Lower","Quad: Vastus","Quad: Rectus Femoris","Adductors","Back: Spinal Erectors"]},{"name":"Cable Lateral Raise","primaryGroup":"Shoulder","equipment":"Cable","tierGrade":"5 - S+","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=477s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral"]},{"name":"Behind-the-Back Cuffed Lateral Raise","primaryGroup":"Shoulder","equipment":"Cable","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=545s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Anterior","Shoulder: Lateral"]},{"name":"Cable Y-Raise","primaryGroup":"Shoulder","equipment":"Cable","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=532s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral","Shoulder: Posterior"]},{"name":"Reverse Cable Crossover","primaryGroup":"Shoulder","equipment":"Cable","tierGrade":"4 - S","muscleLadder":false,"jeffFav":true,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=718s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Posterior"]},{"name":"Reverse Pec Deck","primaryGroup":"Shoulder","equipment":"Machine","tierGrade":"4 - S","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=626s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Posterior","Back: Traps","Back: Rhomboids"]},{"name":"Arnold Style Side Lying Dumbbell Raise","primaryGroup":"Shoulder","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=383s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral","Shoulder: Posterior"]},{"name":"Dumbbell Overhead Press","primaryGroup":"Shoulder","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=324s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Anterior","Shoulder: Lateral"]},{"name":"Lean-In Dumbbell Lateral Raise","primaryGroup":"Shoulder","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=163s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral"]},{"name":"Atlantis Standing Machine Lat Raise","primaryGroup":"Shoulder","equipment":"Machine","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=426s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral"]},{"name":"Machine Shoulder Press","primaryGroup":"Shoulder","equipment":"Machine","tierGrade":"3 - A","muscleLadder":false,"jeffFav":true,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=348s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Anterior","Shoulder: Lateral"]},{"name":"Rope Facepull","primaryGroup":"Shoulder","equipment":"Cable","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=660s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Posterior","Back: Traps","Back: Rhomboids","Back: Rotator Cuff","Neck: Flexors","Core: Hip Flexors"]},{"name":"Overhead Press","primaryGroup":"Shoulder","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=230s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Anterior","Shoulder: Lateral","Triceps: Lateral","Triceps: Medial","Chest: Upper"]},{"name":"Seated Machine Lateral Raise","primaryGroup":"Shoulder","equipment":"Machine","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=458s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral"]},{"name":"Seated Overhead Press","primaryGroup":"Shoulder","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=310s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Anterior","Shoulder: Lateral","Triceps: Lateral","Triceps: Medial","Chest: Upper"]},{"name":"Bent Over Reverse Dumbbell Fly","primaryGroup":"Shoulder","equipment":"Dumbbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=696s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Posterior","Back: Traps","Back: Rhomboids"]},{"name":"Lean-Away Dumbbell Lateral Raise","primaryGroup":"Shoulder","equipment":"Dumbbell","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=178s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral"]},{"name":"Upright Row","primaryGroup":"Shoulder","equipment":"Cable","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=595s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral"]},{"name":"Standing Dumbbell Lateral Raise","primaryGroup":"Shoulder","equipment":"Dumbbell","tierGrade":"2 - B","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=100s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral","Back: Traps"]},{"name":"Super ROM Lateral Raise","primaryGroup":"Shoulder","equipment":"Dumbbell","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=SgyUoY0IZ7A&t=193s","videoId":"SgyUoY0IZ7A","muscles":["Shoulder: Lateral"]},{"name":"Seated Dumbbell Overhead Press","primaryGroup":"Shoulder","equipment":"Dumbbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Shoulder: Anterior","Shoulder: Lateral"]},{"name":"Barbell Upright Row","primaryGroup":"Shoulder","equipment":"Barbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Shoulder: Lateral","Back: Traps"]},{"name":"Cable Upright Row","primaryGroup":"Shoulder","equipment":"Cable","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Shoulder: Lateral","Back: Traps"]},{"name":"Band Pull-Apart","primaryGroup":"Shoulder","equipment":"Resistance Bands","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Shoulder: Posterior","Back: Traps","Back: Rhomboids"]},{"name":"Overhead Cable Triceps Extension (Bar)","primaryGroup":"Triceps","equipment":"Cable","tierGrade":"5 - S+","muscleLadder":true,"jeffFav":true,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=193s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial","Triceps: Long"]},{"name":"Barbell Skullcrusher","primaryGroup":"Triceps","equipment":"Barbell","tierGrade":"4 - S","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=410s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"1 Arm Dumbbell Overhead Extension","primaryGroup":"Triceps","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=390s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"Dumbbell Skullcrusher","primaryGroup":"Triceps","equipment":"Dumbbell","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=453s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"Cable Triceps Kickback","primaryGroup":"Triceps","equipment":"Cable","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=545s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial","Triceps: Long"]},{"name":"Katana Cable Triceps Extension","primaryGroup":"Triceps","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=294s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial","Triceps: Long"]},{"name":"Overhead Cable Triceps Extension (Rope)","primaryGroup":"Triceps","equipment":"Cable","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=274s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial","Triceps: Long"]},{"name":"Smith Machine JM Press","primaryGroup":"Triceps","equipment":"Smith Machine","tierGrade":"3 - A","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=528s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"Triceps Pressdown (Bar)","primaryGroup":"Triceps","equipment":"Cable","tierGrade":"3 - A","muscleLadder":true,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=129s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"Close-Grip Dips","primaryGroup":"Triceps","equipment":"Bodyweight","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=644s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"Diamond Pushups","primaryGroup":"Triceps","equipment":"Bodyweight","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=795s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"Dumbbell French Press","primaryGroup":"Triceps","equipment":"Dumbbell","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=348s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"JM Press","primaryGroup":"Triceps","equipment":"Barbell","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=477s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"Machine Dips","primaryGroup":"Triceps","equipment":"Machine","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=705s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"Triceps Pressdown (Rope)","primaryGroup":"Triceps","equipment":"Cable","tierGrade":"2 - B","muscleLadder":false,"jeffFav":false,"link":"https://www.youtube.com/watch?v=OpRMRhr0Ycc&t=60s","videoId":"OpRMRhr0Ycc","muscles":["Triceps: Lateral","Triceps: Medial"]},{"name":"EZ Bar Skullcrusher","primaryGroup":"Triceps","equipment":"Barbell","tierGrade":"","muscleLadder":true,"jeffFav":false,"link":"","videoId":"","muscles":["Triceps: Lateral","Triceps: Medial"]}];
+
+// Maps each muscle tag to a display group and color
+const MUSCLE_GROUPS = {
+  'Chest: Upper':          {group:'Chest',       color:'#f87171'},
+  'Chest: Middle':         {group:'Chest',       color:'#f87171'},
+  'Chest: Lower':          {group:'Chest',       color:'#f87171'},
+  'Shoulder: Anterior':    {group:'Shoulders',   color:'#fb923c'},
+  'Shoulder: Lateral':     {group:'Shoulders',   color:'#fb923c'},
+  'Shoulder: Posterior':   {group:'Shoulders',   color:'#fb923c'},
+  'Back: Lats':            {group:'Back',        color:'#60a5fa'},
+  'Back: Traps':           {group:'Back',        color:'#60a5fa'},
+  'Back: Rhomboids':       {group:'Back',        color:'#60a5fa'},
+  'Back: Spinal Erectors': {group:'Back',        color:'#60a5fa'},
+  'Back: Rotator Cuff':    {group:'Back',        color:'#60a5fa'},
+  'Biceps: Short':         {group:'Biceps',      color:'#34d399'},
+  'Biceps: Long':          {group:'Biceps',      color:'#34d399'},
+  'Biceps: Brachialis':    {group:'Biceps',      color:'#34d399'},
+  'Triceps: Lateral':      {group:'Triceps',     color:'#a78bfa'},
+  'Triceps: Medial':       {group:'Triceps',     color:'#a78bfa'},
+  'Triceps: Long':         {group:'Triceps',     color:'#a78bfa'},
+  'Forarm':                {group:'Forearms',    color:'#6ee7b7'},
+  'Core: Abdominis':       {group:'Core',        color:'#fbbf24'},
+  'Core: Obliques':        {group:'Core',        color:'#fbbf24'},
+  'Core: Hip Flexors':     {group:'Core',        color:'#fbbf24'},
+  'Glute: Maximus Upper':  {group:'Glutes',      color:'#f472b6'},
+  'Glute: Maximus Middle': {group:'Glutes',      color:'#f472b6'},
+  'Glute: Maximus Lower':  {group:'Glutes',      color:'#f472b6'},
+  'Glute: Medius':         {group:'Glutes',      color:'#f472b6'},
+  'Glute: Minimus':        {group:'Glutes',      color:'#f472b6'},
+  'Quad: Vastus':          {group:'Quads',       color:'#d4ff4f'},
+  'Quad: Rectus Femoris':  {group:'Quads',       color:'#d4ff4f'},
+  'Hamstring':             {group:'Hamstrings',  color:'#4ade80'},
+  'Adductors':             {group:'Adductors',   color:'#c084fc'},
+  'Abductors':             {group:'Abductors',   color:'#e879f9'},
+  'Calves':                {group:'Calves',      color:'#2dd4bf'},
+  'Neck: Flexors':         {group:'Neck',        color:'#94a3b8'},
+  'Neck: Extensors':       {group:'Neck',        color:'#94a3b8'},
+  'Neck: Levator Scapulae':{group:'Neck',        color:'#94a3b8'},
+};
+
+function buildMuscleVisual(muscles) {
+  if (!muscles || muscles.length === 0) {
+    return `<div class="muscle-visual">
+      <div class="muscle-visual-header">MUSCLES TARGETED</div>
+      <div class="no-muscles">No muscle data available</div>
+    </div>`;
+  }
+
+  // Group muscles, track which are primary (first-mentioned per group)
+  const groupMap = {};
+  muscles.forEach(m => {
+    const info = MUSCLE_GROUPS[m];
+    if (!info) return;
+    if (!groupMap[info.group]) groupMap[info.group] = {color: info.color, muscles: [], primary: true};
+    groupMap[info.group].muscles.push(m.split(': ')[1] || m);
+  });
+
+  const groups = Object.entries(groupMap);
+  const maxGroups = groups.length;
+
+  // Primary group is the first one — gets full bar
+  // Others get proportionally smaller bars to indicate secondary
+  const rows = groups.map(([groupName, data], i) => {
+    const isPrimary = i === 0;
+    const barPct = isPrimary ? 100 : Math.max(40, 80 - i * 15);
+    const subLabel = data.muscles.slice(0, 3).join(', ');
+    return `<div class="muscle-bar-item">
+      <div style="display:flex;flex-direction:column;flex:0 0 110px;min-width:0;padding-right:10px">
+        <span style="font-size:13px;font-weight:${isPrimary?700:500};color:${isPrimary?'var(--text)':'var(--text2)'}">${groupName}</span>
+        ${subLabel ? `<span style="font-size:10px;color:var(--text3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${subLabel}</span>` : ''}
+      </div>
+      <div class="muscle-bar-track">
+        <div class="muscle-bar-fill ${isPrimary?'primary':''}" style="width:${barPct}%;background:${isPrimary ? data.color : data.color+'55'}"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="muscle-visual">
+    <div class="muscle-visual-header">MUSCLES TARGETED</div>
+    <div class="muscle-bars" style="padding:14px 16px 14px 16px">${rows}</div>
+  </div>`;
+}
+
+let filterMuscle='', filterTier='', filterSearch='', activeEx=null;
+const workout=[];
+
+function tierBadge(t){
+  if(t==='5 - S+') return `<span class="badge badge-sp">S+</span>`;
+  if(t==='4 - S') return `<span class="badge badge-s">S</span>`;
+  if(t==='3 - A') return `<span class="badge badge-a">A</span>`;
+  if(t==='2 - B') return `<span class="badge badge-b">B</span>`;
+  return '';
+}
+
+function render(){
+  const filtered=EXERCISES.filter(e=>{
+    if(filterMuscle && e.primaryGroup!==filterMuscle) return false;
+    if(filterTier && e.tierGrade!==filterTier) return false;
+    if(filterSearch && !e.name.toLowerCase().includes(filterSearch)) return false;
+    return true;
+  });
+  document.getElementById('result-label').textContent=filtered.length+' exercises';
+  document.getElementById('ex-count').textContent=filtered.length+' shown';
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  filtered.forEach(ex=>{
+    const d=document.createElement('div');
+    d.className='card'+(activeEx===ex.name?' selected':'');
+    d.innerHTML=`<div class="card-name">${ex.name}</div>
+      <div class="card-badges">${tierBadge(ex.tierGrade)}${ex.jeffFav?'<span class="badge badge-fav">★ fav</span>':''}</div>
+      <div class="card-equip"><div class="dot"></div>${ex.equipment}</div>`;
+    d.addEventListener('click',()=>openDetail(ex));
+    grid.appendChild(d);
+  });
+}
+
+function openDetail(ex){
+  activeEx=ex.name;
+  render();
+  const inW=workout.some(w=>w.name===ex.name);
+  document.getElementById('d-name').textContent=ex.name;
+
+  let badges=`<span class="drawer-group-badge">${ex.primaryGroup}</span>`;
+  if(ex.tierGrade) badges+=tierBadge(ex.tierGrade).replace(/class="badge /g,'class="badge ').replace(/font-size:10px/g,'font-size:12px').replace(/padding:2px 7px/g,'padding:5px 12px');
+  if(ex.jeffFav) badges+=`<span class="badge badge-fav" style="font-size:12px;padding:5px 12px">★ Jeff's fav</span>`;
+  if(ex.muscleLadder) badges+=`<span class="badge badge-b" style="font-size:12px;padding:5px 12px">Muscle Ladder</span>`;
+  document.getElementById('d-badges').innerHTML=badges;
+
+  // Tier explainer — only shown when exercise has a tier rating
+  const tierExplainer = document.getElementById('d-tier-legend');
+  const TIER_INFO = {
+    '5 - S+': {cls:'sp', style:'background:rgba(212,255,79,0.15);color:var(--accent)', label:'S+', title:'Elite — Jeff\'s top pick', desc:'Best biomechanics, highest activation, fewest trade-offs. These are the exercises Jeff builds programs around first.'},
+    '4 - S':  {cls:'s',  style:'background:rgba(90,180,255,0.12);color:var(--blue)',   label:'S',  title:'Excellent', desc:'Very strong stimulus-to-fatigue ratio. Minor limitations vs S+ but still highly recommended.'},
+    '3 - A':  {cls:'a',  style:'background:rgba(255,184,63,0.12);color:var(--amber)',  label:'A',  title:'Good — solid choice', desc:'Effective and worth including. May have slight technique demands or marginally less optimal mechanics.'},
+    '2 - B':  {cls:'b',  style:'background:rgba(176,159,255,0.12);color:var(--purple)',label:'B',  title:'Decent — use with intent', desc:'Works fine but outclassed by higher-tier options. Best for variety or when better alternatives aren\'t available.'},
+  };
+  if(ex.tierGrade && TIER_INFO[ex.tierGrade]){
+    const t = TIER_INFO[ex.tierGrade];
+    tierExplainer.innerHTML=`<div class="drawer-tier-explainer">
+      <div class="drawer-tier-explainer-label">What this tier means</div>
+      <div class="drawer-tier-explainer-row">
+        <span class="drawer-tier-explainer-pill" style="${t.style}">${t.label}</span>
+        <span class="drawer-tier-explainer-text"><strong>${t.title}</strong> ${t.desc}</span>
+      </div>
+    </div>`;
+  } else {
+    tierExplainer.innerHTML='';
+  }
+
+  document.getElementById('d-muscle-visual').innerHTML=buildMuscleVisual(ex.muscles);
+
+  const aEl=document.getElementById('d-actions');
+  // Hero YouTube button first
+  let acts = ex.link
+    ? `<a class="btn-yt-hero" href="${ex.link}" target="_blank">
+        <div class="btn-yt-hero-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+        </div>
+        <div class="btn-yt-hero-text">
+          <span class="btn-yt-hero-label">Jeff Nippard · Watch demo</span>
+          <span class="btn-yt-hero-cta">Open video tutorial →</span>
+        </div>
+      </a>`
+    : `<div class="no-video-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="m8 6-2-4M16 6l2-4"/></svg>
+        No demo video available for this exercise
+      </div>`;
+
+  // Add to workout button below
+  acts += inW
+    ? `<button class="btn btn-added" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+        Added to today's workout
+       </button>`
+    : `<button class="btn btn-add" onclick="addToWorkout('${ex.name.replace(/'/g,"\\'")}')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add to today's workout
+       </button>`;
+  aEl.innerHTML=acts;
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+
+function addToWorkout(name){
+  const ex=EXERCISES.find(e=>e.name===name);
+  if(!ex||workout.some(w=>w.name===name)) return;
+  workout.push(ex);
+  renderWorkout();
+  if(activeEx===name) openDetail(ex);
+}
+
+function removeWorkout(i){
+  workout.splice(i,1);
+  renderWorkout();
+  if(activeEx){const ex=EXERCISES.find(e=>e.name===activeEx);if(ex) openDetail(ex);}
+}
+
+function renderWorkout(){
+  document.getElementById('fab-count').textContent=workout.length;
+  const list=document.getElementById('workout-list');
+  if(!workout.length){
+    list.innerHTML='<div class="workout-empty">No exercises yet.<br>Browse and tap "Add to today" to build your session.</div>';
+    return;
+  }
+  list.innerHTML=workout.map((ex,i)=>`
+    <div class="workout-item">
+      <div class="workout-item-info">
+        <div class="workout-item-name">${ex.name}</div>
+        <div class="workout-item-group">${ex.primaryGroup} · ${ex.equipment}</div>
+      </div>
+      <div class="workout-item-actions">
+        ${ex.link?`<a class="icon-btn" href="${ex.link}" target="_blank" title="Watch demo">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+        </a>`:''}
+        <div class="icon-btn remove" onclick="removeWorkout(${i})" title="Remove">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function closeDrawer(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+  activeEx=null;render();
+}
+
+document.getElementById('overlay').addEventListener('click',closeDrawer);
+document.getElementById('d-close').addEventListener('click',closeDrawer);
+
+document.getElementById('muscle-filters').addEventListener('click',e=>{
+  const chip=e.target.closest('.filter-chip');
+  if(!chip) return;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  filterMuscle=chip.dataset.muscle;
+  render();
+});
+
+document.querySelectorAll('.tier-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tier-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    filterTier=btn.dataset.tier;
+    render();
+  });
+});
+
+document.getElementById('search').addEventListener('input',e=>{
+  filterSearch=e.target.value.toLowerCase();render();
+});
+
+document.getElementById('workout-fab').addEventListener('click',()=>{
+  document.getElementById('workout-panel').classList.add('open');
+});
+
+document.getElementById('btn-clear').addEventListener('click',()=>{
+  workout.length=0;renderWorkout();
+});
+
+// Close workout panel on outside tap
+document.addEventListener('click',e=>{
+  const panel=document.getElementById('workout-panel');
+  if(panel.classList.contains('open') && !panel.contains(e.target) && e.target!==document.getElementById('workout-fab')){
+    panel.classList.remove('open');
+  }
+});
+
+renderWorkout();
+render();
+
+const LIFTS=[{"name":"Seated Shoulder Press Machine","current":"140 × 6","history":[{"date":"6/1/26","note":"140 × 6","pr":true}]},{"name":"Seated Outer Thigh Machine","current":"120 × 8","history":[{"date":"5/29/26","note":"120 × 8","pr":true}]},{"name":"Seated Inner Thigh Machine","current":"120 × 8","history":[{"date":"5/29/26","note":"120 × 8","pr":true}]},{"name":"Standing Overhead Shoulder Press","current":"115 × 5","history":[{"date":"4/27/26","note":"115 × 5 PR","pr":true}]},{"name":"Kneeling Bent Over Dumbbell Rows","current":"75 × 8","history":[{"date":"4/21/26","note":"75 × 8 PR","pr":true}]},{"name":"Seated Bench Machine","current":"200 × 10","history":[]},{"name":"Seated Incline Leg Press","current":"620 × 4","history":[{"date":"10/10/24","note":"620 × 4 PR","pr":true},{"date":"8/14/25","note":"620 × 3","pr":false},{"date":"9/26/24","note":"580 × 5 PR","pr":true},{"date":"9/19/24","note":"530 × 5 PR","pr":true},{"date":"8/24/24","note":"490 × 8 PR","pr":true},{"date":"7/22/24","note":"360 PR","pr":true}]},{"name":"Barbell Shoulder Press","current":"115 × 5","history":[{"date":"6/12/23","note":"115 PR from 105","pr":true}]},{"name":"Smith Machine Shoulder Press","current":"80 × 10–12","history":[]},{"name":"Barbell Squat","current":"285 × 2","history":[{"date":"5/15/26","note":"285 × 2","pr":false},{"date":"4/29/26","note":"275 × 3","pr":false},{"date":"9/5/25","note":"275 × 1","pr":false},{"date":"6/29/24","note":"275 × 4","pr":false},{"date":"6/1/24","note":"285 × 2 PR","pr":true},{"date":"3/6/24","note":"265 × 5","pr":false},{"date":"10/7/23","note":"265 × 5 rep PR","pr":true},{"date":"6/1/23","note":"265 × 4 PR","pr":true},{"date":"5/19/23","note":"255 PR","pr":true},{"date":"4/30/23","note":"245 PR","pr":true}]},{"name":"Standing Isolated Incline Cable Fly","current":"35 × 6","history":[{"date":"4/7/26","note":"35 × 6 PR","pr":true}]},{"name":"Barbell Bench","current":"245 × 2","history":[{"date":"6/5/26","note":"245 × 2","pr":false},{"date":"5/26/26","note":"245 × 2","pr":false},{"date":"2/24/26","note":"245 × 2 PR","pr":true},{"date":"7/15/25","note":"245 × 1 PR (two singles)","pr":true},{"date":"4/7/25","note":"235 × 3 PR","pr":true},{"date":"10/30/23","note":"225 PR","pr":true},{"date":"10/26/23","note":"2 plates on Smith Machine","pr":false},{"date":"6/6/23","note":"2 sets of 205","pr":false}]},{"name":"Barbell Incline Bench","current":"175 × 5","history":[]},{"name":"Hex Bar Deadlift (35lb bar)","current":"285 × 4","history":[{"date":"5/18/24","note":"285 PR","pr":true},{"date":"10/20/23","note":"275 PR","pr":true},{"date":"10/20/23","note":"265 PR","pr":true},{"date":"12/8/23","note":"Repeated max","pr":false},{"date":"5/18/23","note":"260 PR","pr":true}]},{"name":"Seated Leg Press","current":"295 × 7","history":[{"date":"4/17/26","note":"295 × 7 PR — maxed out","pr":true},{"date":"5/22/24","note":"250 × 10 PR","pr":true}]},{"name":"T-Bar Rows","current":"225 × 8","history":[{"date":"6/7/24","note":"225 × 8 PR","pr":true},{"date":"5/27/24","note":"205 PR","pr":true}]},{"name":"Triangle Cable Pushdown","current":"85 × 10","history":[]},{"name":"Seated Lat Pulldown (Alt Bar)","current":"145 × 6","history":[{"date":"8/19/24","note":"145 × 6 PR","pr":true},{"date":"—","note":"Was 130 × 12–15","pr":false}]},{"name":"Seated Lat Pulldown (Normal Bar)","current":"145 × 6","history":[{"date":"5/2/26","note":"145 × 6","pr":false}]},{"name":"Pec Deck","current":"190 × 8","history":[{"date":"6/1/26","note":"180 × 6","pr":false},{"date":"4/11/26","note":"180 × 6","pr":false},{"date":"9/20/24","note":"190 × 8 PR","pr":true},{"date":"—","note":"Started at 170","pr":false}]},{"name":"Pull Ups","current":"Bodyweight × failure","history":[]},{"name":"Seated Leg Extension","current":"200 × 10","history":[{"date":"4/22/26","note":"200 × 8","pr":false},{"date":"4/9/26","note":"200 × 8 (could do 10)","pr":false},{"date":"—","note":"Started at 190","pr":false}]},{"name":"Dumbbell Single Arm Kneeling Rows","current":"70 × 8","history":[{"date":"5/28/26","note":"70 × 8","pr":false}]},{"name":"Seated Calf Raise","current":"280 × 10","history":[{"date":"5/29/26","note":"280 × 10 PR","pr":true},{"date":"1/21/26","note":"265 × 10 PR","pr":true}]},{"name":"Dumbbell Chest Press","current":"130 × 8 (65s)","history":[]},{"name":"Dumbbell Incline Chest Press","current":"120 × 10 (60s)","history":[]},{"name":"Dumbbell Arnold Press","current":"90 × 12 (45s)","history":[]},{"name":"Pec Flys Cable","current":"30 × 10","history":[]}];
+
+function renderLifts(){
+  const list = document.getElementById('lifts-list');
+  list.innerHTML = LIFTS.map((lift,i) => {
+    const historyHTML = lift.history.length
+      ? lift.history.map(h=>`
+          <div class="lift-history-row">
+            <span class="lift-history-date">${h.date}</span>
+            <span class="lift-history-note">${h.note}</span>
+            ${h.pr ? '<span class="lift-pr-badge">PR</span>' : ''}
+          </div>`).join('')
+      : '<div class="lift-history-empty">No history logged yet</div>';
+    return `<div class="lift-card" id="lift-${i}">
+      <div class="lift-card-header" onclick="toggleLift(${i})">
+        <div class="lift-card-left">
+          <div class="lift-card-name">${lift.name}</div>
+          <div class="lift-card-pr">${lift.current}</div>
+        </div>
+        <svg class="lift-card-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+      </div>
+      <div class="lift-history">${historyHTML}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleLift(i){
+  document.getElementById('lift-'+i).classList.toggle('open');
+}
+
+function switchTab(tab){
+  document.getElementById('page-browse').classList.toggle('active', tab==='browse');
+  document.getElementById('page-lifts').classList.toggle('active', tab==='lifts');
+  document.getElementById('tab-browse').classList.toggle('active', tab==='browse');
+  document.getElementById('tab-lifts').classList.toggle('active', tab==='lifts');
+  // hide FAB on lifts tab
+  document.getElementById('workout-fab').style.display = tab==='browse' ? '' : 'none';
+}
+
+renderLifts();
+</script>
+</body>
+</html>
